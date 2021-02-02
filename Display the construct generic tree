@@ -1,0 +1,69 @@
+//Display the construct generic tree
+import java.util.*;
+public class GenericTree 
+{
+	static class Node
+	{
+		int data;
+		ArrayList<Node> children = new ArrayList<>();
+	}
+	static Node root;
+	static Node construct(int Euler[])
+	{
+		Stack<Node> st = new Stack<>();
+		for(int i=0;i<Euler.length;i++)
+		{
+			
+			if(Euler[i]==-1)
+			{
+				st.pop();
+			}
+			else
+			{
+				Node n = new Node();
+				n.data = Euler[i];
+				if(st.size()>0)
+				{ 
+					st.peek().children.add(n);
+				}
+				else
+				{
+					root = n;
+				}
+				st.push(n);
+			}
+		}
+		return root;
+	}
+    static void display(Node node)
+    {
+    	String str = node.data+"->";
+    	for(Node child : node.children)
+    	{
+    		str+=" "+child.data;
+    	}
+    	str+=".";
+    	System.out.println(str);
+    	for(Node child:node.children)
+    	{
+    		display(child);
+    	}
+    }
+    static int size(Node node)
+    {
+    	int s= 0;
+    	for(Node child:node.children)
+    	{
+    		int cs = size(child);
+    		s+=cs;
+    	}
+    	s=s+1;
+    	return s;
+    }
+	public static void main(String[] args) 
+	{
+		int Euler[] = {10,20,50,-1,60,-1,-1,30,70,-1,80,110,-1,120,-1,-1,90,-1,-1,40,100,-1,-1,-1};
+		Node root = construct(Euler);
+		display(root);
+	}
+}
